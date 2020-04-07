@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Submit Code</title>
+</head>
+<body>
+<div align="center">
+    <form action="/test" method="get">
+        <textarea rows="50" name="source" id="source" cols="140" accesskey="c"></textarea>
+        <div >
+            <font size="3px">Language</font>
+            <select size="1" name="language" accesskey="l" >
+                <option value="0" selected="">C</option>
+                <option value="1">C++</option>
+                <option value="2">Python</option>
+            </select>
+            <font size="3px">Problem ID</font>
+            <input type="text" name="ProID" value="{{.}}">
+            <input type="submit" value="提交">
+        </div>
+    </form>
+</div>
+</body>
+</html>
