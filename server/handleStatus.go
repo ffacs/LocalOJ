@@ -1,64 +1,46 @@
 package server
 
 import (
-	"bufio"
+	"ffacs/LocalOJ/db"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"net/http"
-	"os"
-	"sort"
-	"strings"
 )
 
-type Log struct{
-	SubTime,Status,Time,Mem,Col,DirName string
+type status struct {
+	Logs []db.Submission
 }
 
-type Status struct {
-	Logs []Log
-	ProID string
+var color = map[string]string{
+	"WA":  "green",
+	"AC":  "red",
+	"CE":  "#6633FF",
+	"TLE": "red",
+	"MLE": "red",
 }
 
-var color=map[string]string{
-	"WA":"green",
-	"AC":"red",
-	"CE":"#6633FF",
-	"TLE":"red",
-	"MLE":"red",
+var lang = map[string]string{
+	"0": "c",
+	"1": "c++11",
+	"2": "python3",
 }
 
-func getList(ProID string) (logs []Log){
-	dir:="./submitted/"+ProID+"/"
-	paths,err:=ioutil.ReadDir(dir)
-	if err != nil {
-		fmt.Printf("getList err:%v",err)
-		return
-	}
-	for _,i:=range paths{
-		name:=dir+i.Name()+"/sub.log"
-		obj,_:=os.Open(name)
-		line,_,_:=bufio.NewReader(obj).ReadLine()
-		obj.Close()
-		data:=strings.Split(string(line)," ")
-		logs=append(logs,Log{data[0]+"  "+data[1],data[2],data[3],data[4],color[data[2]],i.Name()})
-	}
-	sort.Slice(logs, func(i, j int) bool {
-		return logs[i].SubTime>logs[j].SubTime
-	})
-	return
-}
-
-func HandleStatus(writer http.ResponseWriter, request *http.Request){
-	query:=request.URL.Query()
-	ProID:=query.Get("ProID")
-	temp,err:=template.ParseFiles("./static/status.temp")
+//HandleStatus shows status
+func HandleStatus(writer http.ResponseWriter, request *http.Request) {
+	temp, err := template.ParseFiles("./static/status.temp")
 	if err != nil {
 		fmt.Println(err)
 		writer.Write([]byte("502")) //Waiting for a 502 page
 		return
 	}
-	var sta=Status{ProID:ProID,Logs:nil}
-	sta.Logs=getList(ProID)
-	temp.Execute(writer, sta)
+	var Sta status
+	Sta.Logs = db.QuerySubmission()
+
+	for i, j := 0, len(Sta.Logs)-1; i < j; i, j = i+1, j-1 {
+		Sta.Logs[i], Sta.Logs[j] = Sta.Logs[j], Sta.Logs[i]
+	}
+	for i := range Sta.Logs {
+		Sta.Logs[i].Lang = lang[Sta.Logs[i].Lang]
+	}
+	temp.Execute(writer, Sta)
 }

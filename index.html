@@ -22,6 +22,10 @@ window.location.href = ("/JudgeOnline/" + pid + ".html");
 <img src="./image/logo.png">
 <span style="font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 1.3em; font-weight: 300; ">LocalOJ</span>
 </a>
+<div align="right">
+    <button class="ui primary button" name="Btn" onclick="window.location.href='/JudgeOnline/registepage.html'">Register</button>
+    <button class="ui primary button" name="Btn" onclick="window.location.href='/JudgeOnline/login.html'">Log in</button>
+</div>
 </div>
 <center>
 <div class="ui main container">
@@ -33,6 +37,7 @@ window.location.href = ("/JudgeOnline/" + pid + ".html");
 <input type="text" id="targetURL" onkeydown="if(event.keyCode==13)javascript:go_pid()" placeholder="请输入题号"/>
 </div>
 <button class="ui primary button" name="Btn" onclick="javascript:go_pid()">传送到题目！</button>
+<button class="ui primary button" name="Btn" onclick="window.location.href='/status'">Status</button>
 <table class="ui celled table">
 <thead>
 <tr><th>PID</th><th>标题</th></tr>

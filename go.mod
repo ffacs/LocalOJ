@@ -8,6 +8,7 @@ require (
 	github.com/docopt/docopt-go v0.0.0-20180111231733-ee0de3bc6815 // indirect
 	github.com/fatih/color v1.9.0
 	github.com/go-ole/go-ole v1.2.4 // indirect
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.4 // indirect

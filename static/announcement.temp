@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="refresh" content="5;url=/">
+    <title>Login</title>
+    <style>        
+        .a{            
+            width: 1800px;            
+            height: 900px;                     
+            display: flex;            
+            display: -webkit-flex;            
+            justify-content: center;            
+            align-items: center;        
+        }          
+    </style>
+</head>
+<body>
+<div align="center" class="a">
+{{range .}}
+{{.}}<br>
+{{end}}
+</div>
+<table>
+		<tr>
+		<td>该页面将在 </td>
+		<td> <strong><div id= "time"> 5 </div></strong> </td>
+		<td>秒后自动跳转 </td>
+		</tr>
+	</table>
+	
+	<script language="javascript">
+		var times=6;
+		clock();
+		function clock()
+		{
+   			window.setTimeout('clock()',1000);
+   			times=times-1;
+   			time.innerHTML =times;
+		}
+	</script>
+</body>
+</html>

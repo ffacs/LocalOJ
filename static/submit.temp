@@ -9,14 +9,14 @@
 </head>
 <body>
 <div align="center">
-    <form action="/test" method="get">
+    <form action="/test" method="post">
         <textarea rows="50" name="source" id="source" cols="140" accesskey="c"></textarea>
         <div >
             <font size="3px">Language</font>
             <select size="1" name="language" accesskey="l" >
                 <option value="0" selected="">C</option>
                 <option value="1">C++</option>
-                <option value="2">Python</option>
+                <option value="2">Python3</option>
             </select>
             <font size="3px">Problem ID</font>
             <input type="text" name="ProID" value="{{.}}">

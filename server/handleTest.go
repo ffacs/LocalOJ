@@ -1,36 +1,62 @@
 package server
 
 import (
-	"ffacs/LocalOJ/Judge"
+	"ffacs/LocalOJ/db"
+	"ffacs/LocalOJ/judge"
 	"fmt"
 	"net/http"
-	"strings"
-	"time"
 )
 
+//HandleTest receive http request and ready to test
+func HandleTest(w http.ResponseWriter, r *http.Request) {
 
-
-func HandleTest(w http.ResponseWriter, r *http.Request){
-	startTime:=time.Now().Format("2006-01-02 15:04:05")
-	w.Write([]byte(startTime+": Start test\n\n\n"))
-	args:=r.URL.Query()
-	source:=args.Get("source")
-	ProID:=args.Get("ProID")
-	lang:=args.Get("language")
-	dir,name,err:=Judge.Makefile([]byte(source),ProID,lang)
-	if err != nil {
-		w.Write([]byte("UKE"))
-		fmt.Printf("Makefile failed: %v\n",err)
+	user := checklogin(w, r)
+	if user == nil {
 		return
 	}
 
-	status,logs,rtime,rmem:=Judge.Parse(ProID,lang,name)
+	source := r.PostFormValue("source")
+	ProID := r.PostFormValue("ProID")
+	lang := r.PostFormValue("language")
+	uid := user.ID
 
-	logs=strings.Replace(logs,dir+"/","",-1) //删除输出中的文件信息
+	var sub = db.Submission{
+		RunID:   0,
+		Subtime: "",
+		Userid:  uid,
+		Runmem:  0,
+		Runtime: 0,
+		Status:  "pending",
+		Lang:    lang,
+		Pid:     ProID,
+	}
+	newID, err := db.InsertSubmission(sub)
+	if err != nil {
+		return
+	}
+	sub.RunID = newID
 
-	Judge.SaveInfo(startTime,dir,status,logs,rtime,rmem) //存储测评信息
+	sub.Status = "Submitted" //Ready for judging
+	db.UpdateSubmission(sub)
 
-	w.Write([]byte(logs)) //返回浏览器信息
-	w.Write([]byte("\n\n"+time.Now().Format("2006-01-02 15:04:05")+": Done\n"))
-	w.Write([]byte("\n\nstatus:"+status))
+	dir, name, err := judge.Makefile([]byte(source), sub)
+	if err != nil {
+		fmt.Println("handleTest makefile failed")
+		sub.Status = "UKE"
+		db.UpdateSubmission(sub)
+		return
+	}
+
+	judge.JudgeQueue <- judge.Judgement{
+		Dir:  dir,
+		Name: name,
+		Sub:  sub,
+	}
+
+	w.Write([]byte("<script language=\"javascript\" type=\"text/javascript\">window.location.href=\"/status\";</script>"))
+
+	//需要改成302跳转到status界面
+	// w.Write([]byte(logs)) //返回浏览器信息
+	// w.Write([]byte("\n\n" + time.Now().Format("2006-01-02 15:04:05") + ": Done\n"))
+	// w.Write([]byte("\n\nstatus:" + status))
 }

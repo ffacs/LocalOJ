@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<meta http-equiv="refresh" content="5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,26 +9,21 @@
     <title>Status</title>
 </head>
 <body>
-{{$ID := .ProID}}
 <table border="2px"  width="70%" align="center">
     <tbody>
-        <tr bgcolor="aqua" align="center">
-            <td width="20%">Submit Time</td>
-            <td width="20%">Judge Status</td>
-            <td width="20%">RunTime</td>
-            <td width="20%">RunMemory</td>
-            <td width="20%">Details</td>
-        </tr>
     {{range .Logs}}
         <tr align="center">
-            <td><font size="5px">{{.SubTime}}</font></td>
-            <td><font color="{{.Col}}" size="5px">{{.Status}}</font></td>
-            <td><font size="5px" color="#5f9ea0">{{.Time}}</font></td>
-            <td><font size="5px" color="#5f9ea0">{{.Mem}}</font></td>
-            <td><a href="/details?ProID={{$ID}}&Dir={{.DirName}}">Details</a></td>
+            <td><font size="5px" color="#5f9ea0">{{.Subtime}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Userid}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Runmem}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Runtime}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Status}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Lang}}</font></td>
+            <td><a href="/details?runid={{.RunID}}">{{.RunID}}</a></td>
         </tr>
     {{end}}
     </tbody>
 </table>
+</script>
 </body>
 </html>
