@@ -14,11 +14,11 @@
     {{range .Logs}}
         <tr align="center">
             <td><font size="5px" color="#5f9ea0">{{.Subtime}}</font></td>
-            <td><font size="5px" color="#5f9ea0">{{.Userid}}</font></td>
             <td><font size="5px" color="#5f9ea0">{{.Runmem}}</font></td>
             <td><font size="5px" color="#5f9ea0">{{.Runtime}}</font></td>
             <td><font size="5px" color="#5f9ea0">{{.Status}}</font></td>
             <td><font size="5px" color="#5f9ea0">{{.Lang}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Username}}</font></td>
             <td><a href="/details?runid={{.RunID}}">{{.RunID}}</a></td>
         </tr>
     {{end}}

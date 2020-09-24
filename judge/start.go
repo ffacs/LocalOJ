@@ -34,9 +34,11 @@ func StartJudge(ind int) {
 		logs = strings.Replace(logs, dir+"/", "", -1) //删除输出中的文件信息
 
 		sub.Status = status
-		sub.Runtime = int(rtime)
-		sub.Runmem = int(rmem)
+		sub.Runtime = rtime
+		sub.Runmem = rmem
 		db.UpdateSubmission(sub)
+
+		saveInfo(dir, logs, sub)
 
 	}
 }

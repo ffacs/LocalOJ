@@ -6,14 +6,14 @@ import (
 
 //Submission describes a submission
 type Submission struct {
-	RunID   int64
-	Subtime string
-	Userid  int
-	Runmem  int
-	Runtime int
-	Status  string
-	Lang    string
-	Pid     string
+	RunID    int64
+	Subtime  string
+	Runmem   uint64
+	Runtime  uint64
+	Status   string
+	Lang     string
+	Pid      string
+	Username string
 }
 
 //InsertSubmission for inserting user
@@ -26,13 +26,13 @@ func InsertSubmission(sub Submission) (newID int64, err error) {
 		return 0, err
 	}
 	//准备sql语句
-	stmt, err := tx.Prepare("INSERT INTO LocalOJ.submission (`sub_time`,`user_id`,`run_mem`,`run_time`,`status`,`lang`,`pid`) VALUES(now(),?,?,?,?,?,?)")
+	stmt, err := tx.Prepare("INSERT INTO LocalOJ.submission (`sub_time`,`run_mem`,`run_time`,`status`,`lang`,`pid`,`user_name`) VALUES(now(),?,?,?,?,?,?)")
 	if err != nil {
 		fmt.Printf("Insert submission prepare failed:%v\n", err)
 		return 0, err
 	}
 	//将参数传递到sql语句中并且执行
-	res, err := stmt.Exec(sub.Userid, 0, 0, sub.Status, sub.Lang, sub.Pid)
+	res, err := stmt.Exec(0, 0, sub.Status, sub.Lang, sub.Pid, sub.Username)
 	if err != nil {
 		fmt.Printf("Insert submission failed:%v\n", err)
 		return 0, err
@@ -81,7 +81,25 @@ func QuerySubmission() []Submission {
 	var res []Submission
 	for rows.Next() {
 		var sub Submission
-		rows.Scan(&sub.RunID, &sub.Subtime, &sub.Userid, &sub.Runmem, &sub.Runtime, &sub.Status, &sub.Lang, &sub.Pid)
+		rows.Scan(&sub.RunID, &sub.Subtime, &sub.Runmem, &sub.Runtime, &sub.Status, &sub.Lang, &sub.Pid, &sub.Username)
+		res = append(res, sub)
+	}
+	fmt.Println("Query Submission successfully")
+	return res
+}
+
+//QuerySubmissionByUser excutes user's submission
+func QuerySubmissionByUser(user *User) []Submission {
+	rows, err := DB.Query("SELECT * FROM LocalOJ.submission where user_name=?", user.Name)
+	if err != nil {
+		fmt.Printf("Query failed :%v\n", err)
+		return nil
+	}
+	defer rows.Close()
+	var res []Submission
+	for rows.Next() {
+		var sub Submission
+		rows.Scan(&sub.RunID, &sub.Subtime, &sub.Runmem, &sub.Runtime, &sub.Status, &sub.Lang, &sub.Pid, &sub.Username)
 		res = append(res, sub)
 	}
 	fmt.Println("Query Submission successfully")

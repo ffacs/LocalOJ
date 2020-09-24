@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<meta http-equiv="refresh" content="5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Status</title>
+</head>
+<body>
+<table border="2px"  width="70%" align="center">
+    <tbody>
+    {{range .Logs}}
+        <tr align="center">
+            <td><font size="5px" color="#5f9ea0">{{.Subtime}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Runmem}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Runtime}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Status}}</font></td>
+            <td><font size="5px" color="#5f9ea0">{{.Lang}}</font></td>
+            <td><a href="/details?runid={{.RunID}}">{{.RunID}}</a></td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>
+</script>
+</body>
+</html>

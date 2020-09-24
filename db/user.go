@@ -6,7 +6,6 @@ import (
 
 //User describes a user
 type User struct {
-	ID    int
 	Psw   string
 	Name  string
 	Email string
@@ -23,7 +22,7 @@ func QueryUserByName(name string) (*User, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var res = new(User)
-		rows.Scan(&(res.ID), &(res.Psw), &(res.Name), &(res.Email))
+		rows.Scan(&(res.Psw), &(res.Name), &(res.Email))
 		return res, nil
 	}
 	return nil, nil

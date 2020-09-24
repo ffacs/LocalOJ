@@ -15,11 +15,12 @@ func main() {
 	http.HandleFunc("/", server.HandleRoot)
 	http.HandleFunc("/test", server.HandleTest)
 	http.HandleFunc("/status", server.HandleStatus)
-	// http.HandleFunc("/details", server.HandleDetails)
+	http.HandleFunc("/details", server.HandleDetails)
 
 	http.HandleFunc("/register", server.HandleRegister)
 	http.HandleFunc("/login", server.Handlelogin)
 	http.HandleFunc("/logout", server.HandleLogout)
+	http.HandleFunc("/userpage", server.Handleuserpage)
 
 	http.Handle("/JudgeOnline/", http.StripPrefix("/JudgeOnline/", http.FileServer(http.Dir("JudgeOnline"))))
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))

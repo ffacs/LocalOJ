@@ -18,17 +18,17 @@ func HandleTest(w http.ResponseWriter, r *http.Request) {
 	source := r.PostFormValue("source")
 	ProID := r.PostFormValue("ProID")
 	lang := r.PostFormValue("language")
-	uid := user.ID
+	uname := user.Name
 
 	var sub = db.Submission{
-		RunID:   0,
-		Subtime: "",
-		Userid:  uid,
-		Runmem:  0,
-		Runtime: 0,
-		Status:  "pending",
-		Lang:    lang,
-		Pid:     ProID,
+		RunID:    0,
+		Subtime:  "",
+		Username: uname,
+		Runmem:   0,
+		Runtime:  0,
+		Status:   "pending",
+		Lang:     lang,
+		Pid:      ProID,
 	}
 	newID, err := db.InsertSubmission(sub)
 	if err != nil {
