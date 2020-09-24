@@ -53,10 +53,6 @@ func HandleTest(w http.ResponseWriter, r *http.Request) {
 		Sub:  sub,
 	}
 
-	w.Write([]byte("<script language=\"javascript\" type=\"text/javascript\">window.location.href=\"/status\";</script>"))
+	w.Write([]byte("<script language=\"javascript\" type=\"text/javascript\">window.location.href=\"/status?ProID=-1\";</script>"))
 
-	//需要改成302跳转到status界面
-	// w.Write([]byte(logs)) //返回浏览器信息
-	// w.Write([]byte("\n\n" + time.Now().Format("2006-01-02 15:04:05") + ": Done\n"))
-	// w.Write([]byte("\n\nstatus:" + status))
 }

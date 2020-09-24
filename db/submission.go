@@ -88,6 +88,24 @@ func QuerySubmission() []Submission {
 	return res
 }
 
+//QuerySubmissionByPid returns Submission of problem_pid
+func QuerySubmissionByPid(pid string) []Submission {
+	rows, err := DB.Query("SELECT * FROM LocalOJ.submission where pid=?", pid)
+	if err != nil {
+		fmt.Printf("Query failed :%v\n", err)
+		return nil
+	}
+	defer rows.Close()
+	var res []Submission
+	for rows.Next() {
+		var sub Submission
+		rows.Scan(&sub.RunID, &sub.Subtime, &sub.Runmem, &sub.Runtime, &sub.Status, &sub.Lang, &sub.Pid, &sub.Username)
+		res = append(res, sub)
+	}
+	fmt.Println("Query Submission successfully")
+	return res
+}
+
 //QuerySubmissionByUser excutes user's submission
 func QuerySubmissionByUser(user *User) []Submission {
 	rows, err := DB.Query("SELECT * FROM LocalOJ.submission where user_name=?", user.Name)
